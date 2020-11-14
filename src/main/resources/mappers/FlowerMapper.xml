@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zmm.ssm.mapper.FlowerMapper">
+<!--
+    列表查询、分页查询、多条件复杂查询
+    resultType
+            基本类型
+            pojo
+            map
+    -->
+    <select id="list" resultType="java.util.Map">
+        select * from t_flower  f left join t_category c on f.cid=c.cid
+        <where>
+            <if test="cid !=null and cid !='' and cid != -1">
+                and f.cid=#{cid}
+            </if>
+            <if test="fname !=null and fname !='' ">
+                and f.fname like concat ('%',#{fname},'%')
+            </if>
+            <if test="start !=null and start !='' ">
+                and f.price>=#{start}
+            </if>
+            <if test="end !=null and end !='' ">
+                and #{end}>=f.price
+            </if>
+        </where>
+    </select>
+</mapper>
